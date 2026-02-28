@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Fish Pond Alert System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <!-- Left: Branding Panel -->
+        <div class="auth-brand">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <span class="brand-icon">🐟</span>
+                    <h1>Pond Alert<br>System</h1>
+                </div>
+                <p class="brand-tagline">Real-time fish pond monitoring powered by Random Forest ML — protecting aquaculture with F1&nbsp;=&nbsp;1.000 accuracy.</p>
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span>Live sensor gauges</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🚨</span>
+                        <span>Instant alert predictions</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🐟</span>
+                        <span>11 fish species supported</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📱</span>
+                        <span>ESP32 IoT integration</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-bg-art">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+            </div>
+        </div>
+
+        <!-- Right: Login Form -->
+        <div class="auth-form-panel">
+            <form class="auth-form" id="login-form" autocomplete="on">
+                <div class="form-header">
+                    <h2>Welcome back</h2>
+                    <p>Sign in to your monitoring dashboard</p>
+                </div>
+
+                <div class="alert-msg" id="alert-msg" style="display:none;"></div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 6 10-6"/></svg>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                        <button type="button" class="toggle-pass" id="toggle-pass" aria-label="Show password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-wrap">
+                        <input type="checkbox" id="remember" checked>
+                        <span class="checkmark"></span>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-auth" id="btn-login">
+                    <span class="btn-text">Sign In</span>
+                    <span class="btn-loader" style="display:none;"></span>
+                </button>
+
+                <div class="form-footer">
+                    <span>Don't have an account?</span>
+                    <a href="signup.html" class="auth-link">Create account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-login');
+            const alertMsg = document.getElementById('alert-msg');
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            btn.querySelector('.btn-text').textContent = 'Signing in...';
+            btn.disabled = true;
+            alertMsg.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = '/dashboard';
+                } else {
+                    alertMsg.textContent = data.error || 'Invalid credentials';
+                    alertMsg.className = 'alert-msg error';
+                    alertMsg.style.display = 'block';
+                }
+            } catch {
+                alertMsg.textContent = 'Server unreachable. Please try again.';
+                alertMsg.className = 'alert-msg error';
+                alertMsg.style.display = 'block';
+            }
+
+            btn.querySelector('.btn-text').textContent = 'Sign In';
+            btn.disabled = false;
+        });
+    </script>
+</body>
+</html>

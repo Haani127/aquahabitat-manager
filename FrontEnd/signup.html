@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — Fish Pond Alert System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <!-- Left: Branding Panel -->
+        <div class="auth-brand">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <span class="brand-icon">🐟</span>
+                    <h1>Pond Alert<br>System</h1>
+                </div>
+                <p class="brand-tagline">Join the smart aquaculture monitoring platform. Set up alerts, track pond health, and protect your fish — all in real time.</p>
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <span>Free account, instant access</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <span>Secure & private</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📈</span>
+                        <span>Track prediction history</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        <span>RF model inference &lt; 0.1ms</span>
+                    </div>
+                </div>
+            </div>
+            <div class="brand-bg-art">
+                <div class="bubble b1"></div>
+                <div class="bubble b2"></div>
+                <div class="bubble b3"></div>
+                <div class="bubble b4"></div>
+            </div>
+        </div>
+
+        <!-- Right: Signup Form -->
+        <div class="auth-form-panel">
+            <form class="auth-form" id="signup-form" autocomplete="on">
+                <div class="form-header">
+                    <h2>Create account</h2>
+                    <p>Start monitoring your fish ponds today</p>
+                </div>
+
+                <div class="alert-msg" id="alert-msg" style="display:none;"></div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <input type="text" id="first-name" name="first-name" placeholder="John" required autocomplete="given-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <input type="text" id="last-name" name="last-name" placeholder="Doe" required autocomplete="family-name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 6 10-6"/></svg>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="password" name="password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                        <button type="button" class="toggle-pass" id="toggle-pass" aria-label="Show password">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="password-strength">
+                        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                        <span class="strength-label" id="strength-label"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <label class="checkbox-wrap" style="margin-bottom: .5rem;">
+                    <input type="checkbox" id="agree-terms" required>
+                    <span class="checkmark"></span>
+                    <span>I agree to the <a href="#" class="auth-link">Terms of Service</a></span>
+                </label>
+
+                <button type="submit" class="btn-auth" id="btn-signup">
+                    <span class="btn-text">Create Account</span>
+                    <span class="btn-loader" style="display:none;"></span>
+                </button>
+
+                <div class="form-footer">
+                    <span>Already have an account?</span>
+                    <a href="login.html" class="auth-link">Sign in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Password strength meter
+        const pwdInput = document.getElementById('password');
+        const strengthFill = document.getElementById('strength-fill');
+        const strengthLabel = document.getElementById('strength-label');
+
+        pwdInput.addEventListener('input', () => {
+            const val = pwdInput.value;
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const pct = (score / 5) * 100;
+            strengthFill.style.width = pct + '%';
+
+            if (score <= 1) {
+                strengthFill.style.background = 'var(--red)';
+                strengthLabel.textContent = 'Weak';
+                strengthLabel.style.color = 'var(--red)';
+            } else if (score <= 3) {
+                strengthFill.style.background = 'var(--yellow)';
+                strengthLabel.textContent = 'Medium';
+                strengthLabel.style.color = 'var(--yellow)';
+            } else {
+                strengthFill.style.background = 'var(--green)';
+                strengthLabel.textContent = 'Strong';
+                strengthLabel.style.color = 'var(--green)';
+            }
+        });
+
+        // Signup form submission
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-signup');
+            const alertMsg = document.getElementById('alert-msg');
+
+            const firstName = document.getElementById('first-name').value.trim();
+            const lastName = document.getElementById('last-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            alertMsg.style.display = 'none';
+
+            if (password !== confirmPassword) {
+                alertMsg.textContent = 'Passwords do not match.';
+                alertMsg.className = 'alert-msg error';
+                alertMsg.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 6) {
+                alertMsg.textContent = 'Password must be at least 6 characters.';
+                alertMsg.className = 'alert-msg error';
+                alertMsg.style.display = 'block';
+                return;
+            }
+
+            btn.querySelector('.btn-text').textContent = 'Creating account...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName,
+                        lastName,
+                        email,
+                        password
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    alertMsg.textContent = 'Account created! Redirecting to login...';
+                    alertMsg.className = 'alert-msg success';
+                    alertMsg.style.display = 'block';
+                    setTimeout(() => { window.location.href = '/login'; }, 1500);
+                } else {
+                    alertMsg.textContent = data.error || 'Signup failed.';
+                    alertMsg.className = 'alert-msg error';
+                    alertMsg.style.display = 'block';
+                }
+            } catch {
+                alertMsg.textContent = 'Server unreachable. Please try again.';
+                alertMsg.className = 'alert-msg error';
+                alertMsg.style.display = 'block';
+            }
+
+            btn.querySelector('.btn-text').textContent = 'Create Account';
+            btn.disabled = false;
+        });
+    </script>
+</body>
+</html>

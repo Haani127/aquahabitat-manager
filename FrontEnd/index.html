@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Fish Pond Alert System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="has-sidebar">
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-icon">🐟</span>
+            <div class="sidebar-brand">
+                <span class="sidebar-title">PondAlert</span>
+                <span class="sidebar-version">v1.0</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard" class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-monitoring" onclick="scrollToSection('gauge-row')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <span>Monitoring</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-predict" onclick="scrollToSection('action-row')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+                <span>Predictions</span>
+            </a>
+            <a href="#" class="nav-item" id="nav-history" onclick="scrollToSection('history-section')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>History</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-card" id="user-card">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-info">
+                    <span class="user-name" id="user-name">User</span>
+                    <span class="user-email" id="user-email">user@example.com</span>
+                </div>
+                <button class="btn-logout" id="btn-logout" title="Sign out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <div class="main-wrapper">
+        <!-- ====== HEADER ====== -->
+        <header class="top-bar">
+            <div class="topbar-left">
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div class="logo">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <span class="subtitle">Random Forest &middot; F1&nbsp;=&nbsp;1.000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="connection-status" id="conn-status">
+                    <span class="dot"></span>
+                    <span id="conn-label">Standalone Mode</span>
+                </div>
+                <div class="topbar-user" id="topbar-user">
+                    <div class="user-avatar small" id="topbar-avatar">U</div>
+                </div>
+            </div>
+        </header>
+
+    <main class="dashboard">
+        <!-- ====== GAUGES ROW ====== -->
+        <section class="gauge-row">
+            <!-- pH Gauge -->
+            <div class="card gauge-card">
+                <h3 class="card-title">pH Level</h3>
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 200 130">
+                        <path class="gauge-bg" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <path class="gauge-fill" id="ph-arc" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <line class="gauge-needle" id="ph-needle" x1="100" y1="120" x2="100" y2="45" />
+                        <circle class="gauge-center" cx="100" cy="120" r="6" />
+                    </svg>
+                    <div class="gauge-value" id="ph-value">7.0</div>
+                    <div class="gauge-range">0 — 14</div>
+                </div>
+                <input type="range" id="ph-slider" min="0" max="14" step="0.1" value="7.0" class="slider slider-ph">
+            </div>
+
+            <!-- Temperature Gauge -->
+            <div class="card gauge-card">
+                <h3 class="card-title">Temperature</h3>
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 200 130">
+                        <path class="gauge-bg" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <path class="gauge-fill" id="temp-arc" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <line class="gauge-needle" id="temp-needle" x1="100" y1="120" x2="100" y2="45" />
+                        <circle class="gauge-center" cx="100" cy="120" r="6" />
+                    </svg>
+                    <div class="gauge-value" id="temp-value">25°C</div>
+                    <div class="gauge-range">0 — 50 °C</div>
+                </div>
+                <input type="range" id="temp-slider" min="0" max="50" step="0.1" value="25" class="slider slider-temp">
+            </div>
+
+            <!-- Turbidity Gauge -->
+            <div class="card gauge-card">
+                <h3 class="card-title">Turbidity</h3>
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 200 130">
+                        <path class="gauge-bg" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <path class="gauge-fill" id="turb-arc" d="M 20 120 A 80 80 0 0 1 180 120" />
+                        <line class="gauge-needle" id="turb-needle" x1="100" y1="120" x2="100" y2="45" />
+                        <circle class="gauge-center" cx="100" cy="120" r="6" />
+                    </svg>
+                    <div class="gauge-value" id="turb-value">3.0 NTU</div>
+                    <div class="gauge-range">0 — 20 NTU</div>
+                </div>
+                <input type="range" id="turb-slider" min="0" max="20" step="0.1" value="3.0" class="slider slider-turb">
+            </div>
+        </section>
+
+        <!-- ====== CONTROLS + RESULT ====== -->
+        <section class="action-row">
+            <!-- Fish Select & Predict -->
+            <div class="card control-card">
+                <h3 class="card-title">Species & Prediction</h3>
+
+                <label class="input-label" for="fish-select">Fish Species</label>
+                <select id="fish-select" class="fish-dropdown">
+                    <option value="tilapia">Tilapia</option>
+                    <option value="katla">Katla</option>
+                    <option value="rui">Rui</option>
+                    <option value="pangas">Pangas</option>
+                    <option value="koi">Koi</option>
+                    <option value="magur">Magur</option>
+                    <option value="sing">Sing</option>
+                    <option value="karpio">Karpio</option>
+                    <option value="silverCup">Silver Cup</option>
+                    <option value="prawn">Prawn</option>
+                    <option value="shrimp">Shrimp</option>
+                </select>
+
+                <button id="predict-btn" class="btn-predict">
+                    <span class="btn-icon">🚨</span>
+                    <span>PREDICT ALERT</span>
+                </button>
+
+                <div class="mode-info" id="mode-info">
+                    <span class="mode-dot"></span>
+                    Rule-based prediction (matches trained RF — F1&nbsp;=&nbsp;1.000)
+                </div>
+            </div>
+
+            <!-- Result Panel -->
+            <div class="card result-card" id="result-card">
+                <h3 class="card-title">Alert Status</h3>
+
+                <div class="prob-ring-wrapper">
+                    <svg class="prob-ring" viewBox="0 0 160 160">
+                        <circle class="prob-ring-bg" cx="80" cy="80" r="68" />
+                        <circle class="prob-ring-fill" id="prob-ring-fill" cx="80" cy="80" r="68" />
+                    </svg>
+                    <div class="prob-text">
+                        <span class="prob-number" id="prob-number">—</span>
+                        <span class="prob-label" id="prob-label">awaiting</span>
+                    </div>
+                </div>
+
+                <div class="alert-badge" id="alert-badge">
+                    <span id="alert-icon">⏳</span>
+                    <span id="alert-text">Press PREDICT to analyze</span>
+                </div>
+
+                <div class="detail-grid" id="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-key">pH Status</span>
+                        <span class="detail-val" id="detail-ph">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-key">Temp Status</span>
+                        <span class="detail-val" id="detail-temp">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-key">Turbidity</span>
+                        <span class="detail-val" id="detail-turb">—</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== HISTORY TABLE ====== -->
+        <section class="history-section">
+            <div class="card">
+                <div class="history-header">
+                    <h3 class="card-title">Prediction History</h3>
+                    <button class="btn-clear" id="clear-history">Clear</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Time</th>
+                                <th>Fish</th>
+                                <th>pH</th>
+                                <th>Temp</th>
+                                <th>Turb</th>
+                                <th>Alert %</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body"></tbody>
+                    </table>
+                    <p class="empty-msg" id="empty-msg">No predictions yet.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <span>Fish Pond Alert System &middot; Capstone Project &middot; 2026</span>
+    </footer>
+
+    </div><!-- /main-wrapper -->
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Buzzer sound (generated via Web Audio API in JS) -->
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Auth guard — redirect to login if not authenticated
+        if (!Auth.isLoggedIn()) {
+            window.location.href = '/login';
+        }
+
+        // Populate user info from localStorage
+        const user = Auth.getUser();
+        if (user) {
+            const initials = ((user.firstName || '')[0] || '') + ((user.lastName || '')[0] || '');
+            document.getElementById('user-avatar').textContent = initials.toUpperCase() || 'U';
+            document.getElementById('topbar-avatar').textContent = initials.toUpperCase() || 'U';
+            document.getElementById('user-name').textContent = (user.firstName || '') + ' ' + (user.lastName || '');
+            document.getElementById('user-email').textContent = user.email || '';
+        }
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', () => Auth.logout());
+
+        // Sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        document.getElementById('sidebar-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('sidebar-collapsed');
+        });
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        });
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(cls) {
+            const el = document.querySelector('.' + cls);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+</body>
+</html>
